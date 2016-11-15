@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textButton: {
-    flex: 1,
     fontSize: 18,
     textAlign: 'center',
     backgroundColor: 'transparent',
