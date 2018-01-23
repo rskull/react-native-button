@@ -1,6 +1,8 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import createReactClass from 'create-react-class';
+import PropTypes from'prop-types';
 import {
   View,
   TouchableOpacity,
@@ -10,11 +12,10 @@ import {
   TouchableNativeFeedback,
   Platform
 } from 'react-native';
-import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
-class Button extends Component {
-  static propTypes = {
+const Button = createReactClass({
+  propTypes: {
     textStyle: Text.propTypes.style,
     disabledStyle: Text.propTypes.style,
     children: PropTypes.oneOfType([
@@ -36,11 +37,13 @@ class Button extends Component {
     onPressIn: PropTypes.func,
     onPressOut: PropTypes.func,
     background: (TouchableNativeFeedback.propTypes) ? TouchableNativeFeedback.propTypes.background : PropTypes.any,
-  }
+  },
 
-  static isAndroid = (Platform.OS === 'android')
+  statics: {
+    isAndroid: (Platform.OS === 'android'),
+  },
 
-  _renderChildren() {
+  _renderChildren: function() {
     let childElements = [];
     React.Children.forEach(this.props.children, (item) => {
       if (typeof item === 'string' || typeof item === 'number') {
@@ -58,16 +61,16 @@ class Button extends Component {
       }
     });
     return (childElements);
-  }
+  },
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate: function (nextProps, nextState) {
     if (!isEqual(nextProps, this.props)) {
       return true;
     }
     return false;
-  }
+  },
 
-  _renderInnerText() {
+  _renderInnerText: function () {
     if (this.props.isLoading) {
       return (
         <ActivityIndicator
@@ -79,9 +82,9 @@ class Button extends Component {
       );
     }
     return this._renderChildren();
-  }
+  },
 
-  render() {
+  render: function () {
     if (this.props.isDisabled === true || this.props.isLoading === true) {
       return (
         <View style={[styles.button, this.props.style, (this.props.disabledStyle || styles.opacity)]}>
@@ -121,7 +124,7 @@ class Button extends Component {
       );
     }
   }
-}
+});
 
 const styles = StyleSheet.create({
   button: {
